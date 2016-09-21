@@ -1,0 +1,64 @@
+<div class="movie-list-container" layout="column">
+
+    <div class="search-box" layout="row">
+        <span flex></span>
+        <div>
+            <input type="text"
+                   ng-model="$ctrl.searchTerm"
+                   data-ng-class="{'movie-list-open': $ctrl.showMovieNames}"
+                   placeholder="Search for Movies"
+                   data-ng-change="$ctrl.onSearchTermChange()"
+                   class="form-control search-input" />
+            <i class="material-icons search-icon">search</i>
+            <md-progress-circular class="search-input-spinner" data-ng-show="$ctrl.loadingMovies" md-mode="indeterminate" md-diameter="17"></md-progress-circular>
+        </div>
+
+        <div class="movie-names" data-ng-show="$ctrl.showMovieNames">
+            <md-virtual-repeat-container class="movie-name-virtual-repeat">
+                <div class="movie-name"
+                     data-ng-click="$ctrl.selectMovie(movie)"
+                     md-virtual-repeat="movie in $ctrl.movieList">
+                    {{movie.name}}
+                </div>
+            </md-virtual-repeat-container>
+
+        </div>
+        <div class="movie-overlay" data-ng-show="$ctrl.showMovieNames">
+
+        </div>
+    </div>
+
+    <div class="movie-tiles" data-ng-show="$ctrl.movieList.length > 0">
+        <md-virtual-repeat-container class="movie-tile-virtual-repeat">
+            <span md-virtual-repeat="movie in $ctrl.movieList">
+                <img class="movie-tile" data-ng-src="{{movie.imageUrl}}" />
+            </span>
+        </md-virtual-repeat-container>
+    </div>
+
+    <div layout="row" data-ng-show="!$ctrl.loadingMovies && $ctrl.movieList.length == 0 && $ctrl.searchTerm == ''">
+        <span flex></span>
+        <div class="no-data-message">
+            <i class="info-icon material-icons">info</i> Search for a valid movie name in the above search box to see results.
+        </div>
+        <span flex></span>
+    </div>
+
+    <div layout="row" data-ng-show="!$ctrl.loadingMovies && $ctrl.movieList.length == 0 && $ctrl.searchTerm != ''">
+        <span flex></span>
+        <div class="no-data-message" data-ng-show="$ctrl.movieList.length == 0">
+            <i class="info-icon material-icons">info</i> Your search for {{$ctrl.searchTerm}} did not have any matches.
+            <ul>
+                <li>Try different keywords</li>
+                <li>Looking for a Movie or TV show?</li>
+            </ul>
+        </div>
+        <span flex></span>
+    </div>
+
+    <div data-ng-show="$ctrl.loadingMovies">
+        <md-progress-circular class="movie-tile-spinner" md-mode="indeterminate" md-diameter="30"></md-progress-circular>
+    </div>
+
+
+</div>
