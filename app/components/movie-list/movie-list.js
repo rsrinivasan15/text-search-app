@@ -115,6 +115,9 @@ angular.module('myApp')
        * only if the movie suggestion container is opended.
        */
       movieOverlayElement.addEventListener('click', function() {
+        // Since we use addEventListener and go outside of angular context, we need a timeout
+        // to manually trigger a digest cycle. Otherwise the below update will not be reflected in the UI
+        // until the next digest cycle.
         $timeout(function() {
           this.showMovieNames = false;
         }.bind(this));
