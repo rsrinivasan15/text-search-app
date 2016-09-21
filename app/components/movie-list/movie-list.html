@@ -36,17 +36,17 @@
         </md-virtual-repeat-container>
     </div>
 
-    <div layout="row" data-ng-show="!$ctrl.loadingMovies && $ctrl.movieList.length == 0 && $ctrl.searchTerm == ''">
-        <span flex></span>
-        <div class="no-data-message">
-            <i class="info-icon material-icons">info</i> Search for a valid movie name in the above search box to see results.
-        </div>
-        <span flex></span>
+    <div class="movie-tiles" data-ng-show="$ctrl.searchTerm == ''">
+        <md-virtual-repeat-container class="movie-tile-virtual-repeat">
+            <span md-virtual-repeat="movie in $ctrl.allMovies">
+                <img class="movie-tile" data-ng-src="{{movie.imageUrl}}" />
+            </span>
+        </md-virtual-repeat-container>
     </div>
 
     <div layout="row" data-ng-show="!$ctrl.loadingMovies && $ctrl.movieList.length == 0 && $ctrl.searchTerm != ''">
         <span flex></span>
-        <div class="no-data-message" data-ng-show="$ctrl.movieList.length == 0">
+        <div class="no-data-message">
             <i class="info-icon material-icons">info</i> Your search for {{$ctrl.searchTerm}} did not have any matches.
             <ul>
                 <li>Try different keywords</li>

@@ -3,6 +3,13 @@ angular.module('myApp').factory('MovieListDataService', [
 	'$http',
 	'$timeout',
 	function($q, $http, $timeout) {
+		var getAllMovies = function() {
+			var defer = $q.defer();
+			$http.get('data/movieList.json').then(function(list) {
+				defer.resolve(list.data);
+			});
+			return defer.promise;
+		};
 
 		return {
 			getMovieListBySearchTerm: function(searchTerm) {
@@ -10,8 +17,7 @@ angular.module('myApp').factory('MovieListDataService', [
 				if (searchTerm.length === 0) {
 					defer.resolve([]);
 				}
-				$http.get('data/movieList.json').then(function(list) {
-					var movieMetaData = list.data;
+				getAllMovies().then(function(movieMetaData) {
 					var filteredMovies = _.filter(movieMetaData, function(movie) {
 						return (movie.name.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1);
 					});
@@ -22,7 +28,8 @@ angular.module('myApp').factory('MovieListDataService', [
 
 				});
 				return defer.promise;
-			}
+			},
+			getAllMovies: getAllMovies
 		}
 	}
 ]);

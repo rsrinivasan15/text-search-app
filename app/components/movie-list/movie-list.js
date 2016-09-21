@@ -21,11 +21,13 @@ angular.module('myApp')
 
       this.movieList = [];
 
+      this.allMovies = [];
+
       var movieVirtualRepeatElement = $element[0].querySelector('.movie-name-virtual-repeat');
       var movieOverlayElement = $element[0].querySelector('.movie-overlay');
       var transactionId = 0;
 
-      var populateFilteredMovieList = function(id) {
+      var populateFilteredMovieList = _.debounce(function(id) {
         this.movieList = [];
         this.loadingMovies = true;
         MovieListDataService.getMovieListBySearchTerm(this.searchTerm)
@@ -43,7 +45,7 @@ angular.module('myApp')
               });
             }
           }.bind(this));
-      }.bind(this);
+      }.bind(this), 300);
 
       var setMovieNameContainerHeight = function() {
         var height = this.movieList.length * 20;
@@ -53,10 +55,11 @@ angular.module('myApp')
         movieVirtualRepeatElement.style.height = height + 'px';
       }.bind(this);
 
-      this.onSearchTermChange = _.debounce(function() {
+      this.onSearchTermChange = function() {
         transactionId++;
+        this.loadingMovies = true;
         populateFilteredMovieList(transactionId);
-      }, 300);
+      };
 
       this.selectMovie = function(movie) {
         this.selectedMovie = movie;
@@ -69,6 +72,10 @@ angular.module('myApp')
         $timeout(function() {
           this.showMovieNames = false;
         }.bind(this));
+      }.bind(this));
+
+      MovieListDataService.getAllMovies().then(function(list) {
+        this.allMovies = list;
       }.bind(this));
     }
   ]);
