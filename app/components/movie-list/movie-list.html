@@ -17,7 +17,7 @@
             <md-virtual-repeat-container class="movie-name-virtual-repeat">
                 <div class="movie-name"
                      data-ng-click="$ctrl.selectMovie(movie)"
-                     md-virtual-repeat="movie in $ctrl.movieList">
+                     md-virtual-repeat="movie in $ctrl.filteredMovieList">
                     {{movie.name}}
                 </div>
             </md-virtual-repeat-container>
@@ -28,9 +28,9 @@
         </div>
     </div>
 
-    <div class="movie-tiles" data-ng-show="$ctrl.movieList.length > 0">
+    <div class="movie-tiles" data-ng-show="$ctrl.filteredMovieList.length > 0">
         <md-virtual-repeat-container class="movie-tile-virtual-repeat">
-            <span md-virtual-repeat="movie in $ctrl.movieList">
+            <span md-virtual-repeat="movie in $ctrl.filteredMovieList">
                 <img class="movie-tile" data-ng-src="{{movie.imageUrl}}" />
             </span>
         </md-virtual-repeat-container>
@@ -44,7 +44,7 @@
         </md-virtual-repeat-container>
     </div>
 
-    <div layout="row" data-ng-show="!$ctrl.loadingMovies && $ctrl.movieList.length == 0 && $ctrl.searchTerm != ''">
+    <div layout="row" data-ng-show="!$ctrl.loadingMovies && $ctrl.filteredMovieList.length == 0 && $ctrl.searchTerm != ''">
         <span flex></span>
         <div class="no-data-message">
             <i class="info-icon material-icons">info</i> Your search for {{$ctrl.searchTerm}} did not have any matches.
