@@ -33,9 +33,13 @@ angular.module('myApp')
       // displays data from this list.
       this.allMovies = [];
 
+      this.selectedMovieTile = null;
+
       // Cache the element handle at the controller level.
       var movieVirtualRepeatElement = $element[0].querySelector('.movie-name-virtual-repeat');
       var movieOverlayElement = $element[0].querySelector('.movie-overlay');
+
+      var PAYPAL_LINK = 'https://www.paypal.com/us/home';
 
       // This is used to resolve only the latest response when multiple server call is in progress
       // as a result of user searching frequently and the responses come back in an unordered fashion.
@@ -107,6 +111,15 @@ angular.module('myApp')
         this.filteredMovieList = [movie];
         this.searchTerm = movie.name;
         this.showMovieNames = false;
+      };
+
+      this.selectMovieTile = function(movie) {
+        this.selectedMovieTile = movie;
+        console.log('selected movie tile:', movie);
+      };
+
+      this.checkOutWithPaypal = function(movie) {
+        window.open(PAYPAL_LINK, '__blank');
       };
 
       /**

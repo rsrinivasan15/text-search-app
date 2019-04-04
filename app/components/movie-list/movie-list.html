@@ -2,6 +2,9 @@
 
     <div class="search-box" layout="row">
         <span flex></span>
+        <div class="checkout-with-paypal" data-ng-if="$ctrl.selectedMovieTile" data-ng-click="$ctrl.checkOutWithPaypal()">
+            <img src="https://www.paypalobjects.com/webstatic/en_US/i/buttons/checkout-logo-medium.png" alt="Check out with PayPal" />
+        </div>
         <div>
             <input type="text"
                    ng-model="$ctrl.searchTerm"
@@ -31,7 +34,7 @@
     <div class="movie-tiles" data-ng-show="$ctrl.filteredMovieList.length > 0">
         <md-virtual-repeat-container class="movie-tile-virtual-repeat">
             <span md-virtual-repeat="movie in $ctrl.filteredMovieList">
-                <img class="movie-tile" data-ng-src="{{movie.imageUrl}}" />
+                <img class="movie-tile" data-ng-src="{{movie.imageUrl}}" data-ng-click="$ctrl.selectMovieTile(movie)" data-ng-class="{'movie-tile-selected': $ctrl.selectedMovieTile.name == movie.name}" />
             </span>
         </md-virtual-repeat-container>
     </div>
@@ -39,7 +42,7 @@
     <div class="movie-tiles" data-ng-show="$ctrl.searchTerm == ''">
         <md-virtual-repeat-container class="movie-tile-virtual-repeat">
             <span md-virtual-repeat="movie in $ctrl.allMovies">
-                <img class="movie-tile" data-ng-src="{{movie.imageUrl}}" />
+                <img class="movie-tile" data-ng-src="{{movie.imageUrl}}" data-ng-click="$ctrl.selectMovieTile(movie)" data-ng-class="{'movie-tile-selected': $ctrl.selectedMovieTile.name == movie.name}" />
             </span>
         </md-virtual-repeat-container>
     </div>
